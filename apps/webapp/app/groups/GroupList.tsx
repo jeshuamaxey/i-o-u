@@ -6,7 +6,7 @@ import { Database } from "@repo/supabase-types";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-type Row = Database["public"]["Tables"]["expenses"]["Row"]
+type Expense = Database["public"]["Tables"]["expenses"]["Row"]
 
 const CURRENCIES: {[key: string]: string} = {
   'GBP': '£',
@@ -42,12 +42,12 @@ const GroupList = () => {
   return (
     <div className="flex flex-col gap-2">
       {groups.map((group) => {
-        const totalExpense = group.expenses.reduce((acc: number, expense: Row) => acc + expense.amount, 0);
+        const totalExpense = group.expenses.reduce((acc: number, expense: Expense) => acc + expense.amount, 0);
         
         return (
           <div key={group.id}
             onClick={() => navigateTo(group.id)}
-            className={`flex flex-col gap-2 p-4 bg-slate-100 rounded-md cursor-pointer ${group.archived_at && "text-slate-500"}`}>
+            className={`flex flex-col gap-2 p-4 bg-slate-100 rounded-md cursor-pointer ${group.archived_at && "text-slate-500"} hover:shadow`}>
             <div className="flex justify-between">
               <h2 className="font-bold">{group.name}</h2>
               <p>{group.archived_at && "Archived"}</p>
