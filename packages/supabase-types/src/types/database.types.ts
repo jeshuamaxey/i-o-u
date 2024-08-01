@@ -115,7 +115,7 @@ export interface Database {
         Row: {
           archived_at: string | null
           created_at: string | null
-          currency: Database["public"]["Enums"]["currency"] | null
+          currency: Database["public"]["Enums"]["currency"]
           id: string
           name: string
           owner_id: string
@@ -123,7 +123,7 @@ export interface Database {
         Insert: {
           archived_at?: string | null
           created_at?: string | null
-          currency?: Database["public"]["Enums"]["currency"] | null
+          currency?: Database["public"]["Enums"]["currency"]
           id: string
           name: string
           owner_id: string
@@ -131,7 +131,7 @@ export interface Database {
         Update: {
           archived_at?: string | null
           created_at?: string | null
-          currency?: Database["public"]["Enums"]["currency"] | null
+          currency?: Database["public"]["Enums"]["currency"]
           id?: string
           name?: string
           owner_id?: string

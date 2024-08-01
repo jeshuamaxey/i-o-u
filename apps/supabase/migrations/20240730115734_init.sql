@@ -14,7 +14,7 @@ create table groups (
   created_at timestamp with time zone default now(),
   name text not null,
   owner_id uuid not null references profiles on delete cascade,
-  currency currency default 'GBP',
+  currency currency not null default 'GBP',
   archived_at timestamp with time zone
 );
 
