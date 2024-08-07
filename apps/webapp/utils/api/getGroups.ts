@@ -1,4 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
+import { NO_USER_ERROR } from "./errors";
 
 export const getGroups = async (supabase: SupabaseClient, filters?: { archived? : boolean}) => {
   const {
@@ -6,7 +7,7 @@ export const getGroups = async (supabase: SupabaseClient, filters?: { archived? 
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error("User not found");
+    throw new Error(NO_USER_ERROR);
   }
 
   let req = supabase

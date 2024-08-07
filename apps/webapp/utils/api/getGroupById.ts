@@ -1,6 +1,9 @@
+import { Database } from "@repo/supabase-types";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { GROUP_SELECT } from "./_queries";
+import { SBGroup } from "./_types";
 
-export const getGroupById = async (supabase: SupabaseClient, groupId: string) => {
+export const getGroupById = async (supabase: SupabaseClient, groupId: string): Promise<SBGroup>  => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -11,10 +14,10 @@ export const getGroupById = async (supabase: SupabaseClient, groupId: string) =>
 
   let req = supabase
     .from("groups")
-    .select("*, group_members(*), expenses(*)")
+    .select(GROUP_SELECT)
     .filter("owner_id", "eq", user.id)
     .filter("id", "eq", groupId)
-    .single();
+    .single<SBGroup>();
 
   const { data, error } = await req;
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { NO_USER_ERROR } from "@/utils/api/errors";
 import { getGroups } from "@/utils/api/getGroups";
 import { createClient } from "@/utils/supabase/client";
 import { Database } from "@repo/supabase-types";
@@ -27,7 +28,10 @@ const GroupList = () => {
   }
 
   if(query.isError) {
-    console.error(query.error)
+    if(query.error.message === NO_USER_ERROR) {
+      router.push("/login")
+    }
+
     return <div>Error: {query.error.message || "query error"}</div>
   }
 
@@ -47,7 +51,7 @@ const GroupList = () => {
         return (
           <div key={group.id}
             onClick={() => navigateTo(group.id)}
-            className={`flex flex-col gap-2 p-4 bg-slate-100 rounded-md cursor-pointer ${group.archived_at && "text-slate-500"} hover:shadow`}>
+            className={`flex flex-col gap-2 p-4 bg-background rounded-md cursor-pointer ${group.archived_at && "text-foreground/60"} hover:shadow`}>
             <div className="flex justify-between">
               <h2 className="font-bold">{group.name}</h2>
               <p>{group.archived_at && "Archived"}</p>

@@ -1,5 +1,7 @@
 "use client"
 
+import { User } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
 import { getGroupById } from "@/utils/api/getGroupById";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@repo/ui/components/ui/button";
@@ -13,8 +15,12 @@ import {
   TabsTrigger,
 } from "@repo/ui/components/ui/tabs"
 import Expenses from "./Expenses";
+import Members from "./Members";
+import Settings from "./Settings";
+import SettleUp from "./SettleUp";
 
 const Group = () => {
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const supabase = createClient();
   const {groupId} = useParams<{ groupId: string }>();
@@ -24,7 +30,18 @@ const Group = () => {
     queryFn: async () => getGroupById(supabase, groupId)
   });
 
-  if(query.isLoading) {
+  useEffect(() => {
+    const getUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if(!data.user) {
+        router.push("/login")
+      }
+      setUser(data.user)
+    }
+    getUser();
+  }, [])
+
+  if(query.isLoading || !user) {
     return <div>Loading...</div>
   }
 
@@ -45,7 +62,7 @@ const Group = () => {
       </div>
 
       <Tabs defaultValue="expenses" className="w-full">
-        <TabsList className="w-full flex justify-start bg-slate-100 gap-2">
+        <TabsList className="w-full flex justify-start gap-2">
           <TabsTrigger value="expenses">Expenses</TabsTrigger>
           <TabsTrigger value="settleUp">Settle up</TabsTrigger>
           <TabsTrigger value="members">Members</TabsTrigger>
@@ -55,13 +72,13 @@ const Group = () => {
           <Expenses group={group} />
         </TabsContent>
         <TabsContent value="settleUp">
-          <p>settleUp</p>
+          <SettleUp group={group} userId={user!.id} />
         </TabsContent>
         <TabsContent value="members">
-          <p>members</p>
+          <Members group={group} />
         </TabsContent>
         <TabsContent value="settings">
-          <p>members</p>
+          <Settings group={group} />
         </TabsContent>
       </Tabs>
 
