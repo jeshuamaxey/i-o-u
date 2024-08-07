@@ -51,7 +51,7 @@ export interface Database {
           date: string
           description: string
           group_id: string
-          id: string
+          id?: string
           paid_for_by: string
           split_between?: Json
         }
@@ -84,16 +84,19 @@ export interface Database {
         Row: {
           created_at: string | null
           group_id: string
+          name: string | null
           user_id: string
         }
         Insert: {
           created_at?: string | null
           group_id: string
+          name?: string | null
           user_id: string
         }
         Update: {
           created_at?: string | null
           group_id?: string
+          name?: string | null
           user_id?: string
         }
         Relationships: [
@@ -119,14 +122,16 @@ export interface Database {
           id: string
           name: string
           owner_id: string
+          simplified_debts_enabled: boolean | null
         }
         Insert: {
           archived_at?: string | null
           created_at?: string | null
           currency?: Database["public"]["Enums"]["currency"]
-          id: string
+          id?: string
           name: string
           owner_id: string
+          simplified_debts_enabled?: boolean | null
         }
         Update: {
           archived_at?: string | null
@@ -135,6 +140,7 @@ export interface Database {
           id?: string
           name?: string
           owner_id?: string
+          simplified_debts_enabled?: boolean | null
         }
         Relationships: [
           {
