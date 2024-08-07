@@ -156,15 +156,13 @@ const simplyfyDebts = (debts: Debt[]): Debt[] => {
 }
 
 const SettleUp = ({group, userId}: {group: SBGroup, userId: User["id"]}) => {
-  const [simplifyMode, setSimplifyMode] = useState(false)
-
   const allDebts: Debt[] = group.expenses.map(expenseToDebts)
   .flat()
   .filter(d => d !== null)
 
   const rationalisedDebts = rationaliseDebts(allDebts)
   const simplifiedDebts: Debt[] = rationaliseDebts(simplyfyDebts([...rationalisedDebts]))
-  const debts = simplifyMode ? simplifiedDebts : rationalisedDebts;
+  const debts = group.simplified_debts_enabled ? simplifiedDebts : rationalisedDebts;
 
   return <div className="flex flex-col gap-2">
     {debts.length === 0 && (
@@ -172,14 +170,7 @@ const SettleUp = ({group, userId}: {group: SBGroup, userId: User["id"]}) => {
         <h3>All settled up!</h3>
       </div>
     )}
-    {debts.length > 0 && (
-      <div className="flex justify-between items-center bg-foreground/5 p-4 rounded-lg">
-        <Label>Simple mode</Label>
-        <Switch
-          checked={simplifyMode}
-          onCheckedChange={() => setSimplifyMode(!simplifyMode)}/>
-      </div>
-    )}
+
     {debts.map(debt => {
       const creditor = userId === debt.creditor ? "you" : group.group_members.find(m => m.user_id === debt.creditor)?.profiles?.username
       const debtor = userId === debt.debtor ? "you" : group.group_members.find(m => m.user_id === debt.debtor)?.profiles?.username
