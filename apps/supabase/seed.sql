@@ -45,23 +45,23 @@ insert into group_members (group_id, user_id, name) values
   ('f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 'f7b3b3b4-0b3b-4b3b-ffff-000000000003', 'gio');
 
 -- EXPENSES
-insert into expenses (id, group_id, amount, description, date, paid_for_by, split_between) values
+insert into expenses (id, group_id, created_by, amount, description, date, paid_for_by, split_between) values
   -- SI group
-  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000001'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 15, 'Uni', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000000', '[{
+  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000001'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 'f7b3b3b4-0b3b-4b3b-ffff-000000000000'::uuid, 15, 'Uni', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000000', '[{
     "beneficiary": "f7b3b3b4-0b3b-4b3b-ffff-000000000000",
     "amount": 7.50
   }, {
     "beneficiary": "f7b3b3b4-0b3b-4b3b-ffff-000000000001",
     "amount": 7.50
   }]'::jsonb),
-  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000002'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 45, 'Taxi', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000000', '[{
+  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000002'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 'f7b3b3b4-0b3b-4b3b-ffff-000000000000'::uuid, 45, 'Taxi', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000000', '[{
     "beneficiary": "f7b3b3b4-0b3b-4b3b-ffff-000000000000",
     "amount": 10.00
   }, {
     "beneficiary": "f7b3b3b4-0b3b-4b3b-ffff-000000000001",
     "amount": 35.00
   }]'::jsonb),
-  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000003'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 20, 'OJ', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000000', '[{
+  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000003'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 'f7b3b3b4-0b3b-4b3b-ffff-000000000000'::uuid, 20, 'OJ', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000000', '[{
     "beneficiary": "f7b3b3b4-0b3b-4b3b-ffff-000000000000",
     "amount": 5.00
   }, {
@@ -74,7 +74,7 @@ insert into expenses (id, group_id, amount, description, date, paid_for_by, spli
     "beneficiary": "f7b3b3b4-0b3b-4b3b-ffff-000000000003",
     "amount": 5.00
   }]'::jsonb),
-  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000004'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 300, 'Glitter paint', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000003', '[{
+  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000004'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 'f7b3b3b4-0b3b-4b3b-ffff-000000000003'::uuid, 300, 'Glitter paint', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000003', '[{
     "beneficiary": "f7b3b3b4-0b3b-4b3b-ffff-000000000000",
     "amount": 100.00
   }, {
@@ -85,7 +85,7 @@ insert into expenses (id, group_id, amount, description, date, paid_for_by, spli
     "amount": 100.00
   }]'::jsonb),
   -- Archived group
-  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000100'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000001'::uuid, 100, 'Pizza', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000000', '[{
+  ('f7b3b3b4-0b3b-4b3b-bbbb-000000000100'::uuid, 'f7b3b3b4-0b3b-4b3b-aaaa-000000000001'::uuid, 'f7b3b3b4-0b3b-4b3b-ffff-000000000000'::uuid, 100, 'Pizza', '2024-07-16', 'f7b3b3b4-0b3b-4b3b-ffff-000000000000', '[{
     "beneficiary": "f7b3b3b4-0b3b-4b3b-ffff-000000000001",
     "amount": 10.00
   }, {

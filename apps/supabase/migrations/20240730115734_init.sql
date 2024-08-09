@@ -31,10 +31,11 @@ create table group_members (
 create table expenses (
   id uuid primary key default gen_random_uuid(),
   created_at timestamp with time zone default now(),
+  created_by uuid not null references profiles,
   group_id uuid not null references groups,
   amount numeric not null,
   description text not null,
   date date not null,
-  paid_for_by uuid not null references profiles,
+  paid_for_by uuid not null references profiles(id),
   split_between jsonb not null default '[]'::jsonb
 );

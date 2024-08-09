@@ -69,7 +69,7 @@ const Group = () => {
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
         <TabsContent value="expenses">
-          <Expenses group={group} />
+          <Expenses group={group} user={user}/>
         </TabsContent>
         <TabsContent value="settleUp">
           <SettleUp group={group} userId={user!.id} />

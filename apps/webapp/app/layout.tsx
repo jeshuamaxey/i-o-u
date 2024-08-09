@@ -1,4 +1,3 @@
-import { QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { GeistSans } from "geist/font/sans";
 import Providers from '@/components/Providers';
@@ -20,10 +19,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const queryClient = new QueryClient()
-
-  console.log(queryClient)
-
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">

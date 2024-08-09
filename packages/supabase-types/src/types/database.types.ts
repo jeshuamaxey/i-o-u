@@ -38,6 +38,7 @@ export interface Database {
         Row: {
           amount: number
           created_at: string | null
+          created_by: string
           date: string
           description: string
           group_id: string
@@ -48,6 +49,7 @@ export interface Database {
         Insert: {
           amount: number
           created_at?: string | null
+          created_by: string
           date: string
           description: string
           group_id: string
@@ -58,6 +60,7 @@ export interface Database {
         Update: {
           amount?: number
           created_at?: string | null
+          created_by?: string
           date?: string
           description?: string
           group_id?: string
@@ -66,6 +69,12 @@ export interface Database {
           split_between?: Json
         }
         Relationships: [
+          {
+            foreignKeyName: "expenses_created_by_fkey"
+            columns: ["created_by"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "expenses_group_id_fkey"
             columns: ["group_id"]
