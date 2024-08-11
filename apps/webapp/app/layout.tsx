@@ -2,7 +2,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { GeistSans } from "geist/font/sans";
 import Providers from '@/components/Providers';
 
-import "./globals.css";
+import './globals.css';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
