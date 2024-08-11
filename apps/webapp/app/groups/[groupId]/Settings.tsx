@@ -39,11 +39,11 @@ const Settings = ({group}: SettingsProps) => {
   }
 
   return <div className="flex flex-col gap-2">
-    <div className="bg-foreground/5 rounded-md p-4">
+    <div className="bg-muted rounded-md p-4">
       <h3 className="font-black pb-2">Currency</h3>
       <p>{group.currency}</p>
     </div>
-    <div className="bg-foreground/5 rounded-md p-4">
+    <div className="bg-muted rounded-md p-4">
       <div className="flex justify-between">
         <h3 className="font-black pb-2">Simplified debts</h3>
         {group.simplified_debts_enabled && (

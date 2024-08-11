@@ -166,7 +166,7 @@ const SettleUp = ({group, userId}: {group: SBGroup, userId: User["id"]}) => {
 
   return <div className="flex flex-col gap-2">
     {debts.length === 0 && (
-      <div className="bg-foreground/5 p-8 text-center rounded-md">
+      <div className="bg-muted p-8 text-center rounded-md">
         <h3>All settled up!</h3>
       </div>
     )}
@@ -176,7 +176,7 @@ const SettleUp = ({group, userId}: {group: SBGroup, userId: User["id"]}) => {
       const debtor = userId === debt.debtor ? "you" : group.group_members.find(m => m.user_id === debt.debtor)?.profiles?.username
       const owes = debtor === "you" ? "owe" : "owes";
 
-      return <div key={debt.key} className="flex justify-between items-center bg-foreground/5 p-4 rounded-lg">
+      return <div key={debt.key} className="flex justify-between items-center bg-muted p-4 rounded-lg">
         <div className="flex gap-2">
           <p>
             <span className="font-bold capitalize">{debtor}</span> {owes} <span className="font-bold">{creditor}</span> <MonetaryAmount amount={debt.amount} currency={group.currency} /></p>
