@@ -26,7 +26,7 @@ export default function RootLayout({
           <main className="min-h-screen flex flex-col items-center">
             {children}
           </main>
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
         </Providers>
       </body>
     </html>
