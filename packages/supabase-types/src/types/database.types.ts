@@ -160,6 +160,67 @@ export interface Database {
           }
         ]
       }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string | null
+          created_by: string
+          date: string
+          description: string | null
+          group_id: string
+          id: string
+          paid_from: string
+          paid_to: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          created_by: string
+          date: string
+          description?: string | null
+          group_id: string
+          id?: string
+          paid_from: string
+          paid_to: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          created_by?: string
+          date?: string
+          description?: string | null
+          group_id?: string
+          id?: string
+          paid_from?: string
+          paid_to?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_created_by_fkey"
+            columns: ["created_by"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_group_id_fkey"
+            columns: ["group_id"]
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_paid_from_fkey"
+            columns: ["paid_from"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_paid_to_fkey"
+            columns: ["paid_to"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null

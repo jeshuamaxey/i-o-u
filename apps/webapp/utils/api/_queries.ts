@@ -4,5 +4,6 @@ export const GROUP_SELECT = `
     *,
     profiles(*)
   ),
-  expenses(*)
+  expenses(*),
+  payments(*)
 `

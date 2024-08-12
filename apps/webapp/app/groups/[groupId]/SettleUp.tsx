@@ -1,22 +1,9 @@
 import MonetaryAmount from "@/components/MonetaryAmount";
+import RecordPaymentButton from "@/components/RecordPaymentButton";
+import { Debt, SplitBetween } from "@/types";
 import { SBGroup } from "@/utils/api/_types";
-import { Label } from "@repo/ui/components/ui/label";
-import { Switch } from "@repo/ui/components/ui/switch"
+import { getGroupMemberDisplayName } from "@/utils/getGroupMemberDisplayName";
 import { User } from "@supabase/supabase-js";
-import { useState } from "react";
-
-type SplitBetween = {
-  beneficiary: string
-  amount: number
-}
-
-type Debt = {
-  key: string
-  debtor: string
-  creditor: string
-  amount: number
-  expenseId: string
-}
 
 const generateDebtKey = (debt: Pick<Debt, 'expenseId' | 'amount' | 'creditor' | 'debtor'>) => {
   return debt.expenseId+debt.creditor+debt.debtor+debt.amount
@@ -156,6 +143,15 @@ const simplyfyDebts = (debts: Debt[]): Debt[] => {
 }
 
 const SettleUp = ({group, userId}: {group: SBGroup, userId: User["id"]}) => {
+  console.log(group)
+  const paymentDebts = group.payments.map(p => createDebtWithKey({
+      amount: p.amount,
+      creditor: p.paid_from,
+      debtor: p.paid_to,
+      expenseId: p.id
+    })
+  )
+
   const allDebts: Debt[] = group.expenses.map(expenseToDebts)
   .flat()
   .filter(d => d !== null)
@@ -177,9 +173,28 @@ const SettleUp = ({group, userId}: {group: SBGroup, userId: User["id"]}) => {
       const owes = debtor === "you" ? "owe" : "owes";
 
       return <div key={debt.key} className="flex justify-between items-center bg-muted p-4 rounded-lg">
-        <div className="flex gap-2">
+        <p>
+          <span className="font-bold capitalize">{debtor}</span>
+          <span> {owes} </span>
+          <span className="font-bold">{creditor}</span> <MonetaryAmount amount={debt.amount} currency={group.currency} />
+        </p>
+        <RecordPaymentButton group={group} userId={userId} debt={debt} />
+      </div>
+    })}
+
+    {group.payments.length > 0 && <h2 className="text-lg font-bold p-2">Payments</h2>}
+
+    {group.payments.map(payment => {
+      const paid_from = userId === payment.paid_from ? "you" : getGroupMemberDisplayName(group, payment.paid_from)
+      const paid_to = userId === payment.paid_to ? "you" : getGroupMemberDisplayName(group, payment.paid_to)
+
+      return <div key={payment.id} className="flex justify-between items-center bg-muted p-4 rounded-lg">
+        <div className="flex gap-2 justify-between">
           <p>
-            <span className="font-bold capitalize">{debtor}</span> {owes} <span className="font-bold">{creditor}</span> <MonetaryAmount amount={debt.amount} currency={group.currency} /></p>
+            <span className="font-bold capitalize">{paid_from}</span>
+            <span> paid </span>
+            <span className="font-bold">{paid_to}</span> <MonetaryAmount amount={payment.amount} currency={group.currency} />
+          </p>
         </div>
       </div>
     })}

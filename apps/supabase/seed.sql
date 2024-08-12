@@ -93,6 +93,10 @@ insert into expenses (id, group_id, created_by, amount, description, date, paid_
     "amount": 90.00
   }]'::jsonb);
 
+-- PAYMENTS
+insert into payments (group_id, created_by, date, amount, paid_from, paid_to) values
+  ('f7b3b3b4-0b3b-4b3b-aaaa-000000000000'::uuid, 'f7b3b3b4-0b3b-4b3b-ffff-000000000000'::uuid, '2024-07-20', 105, 'f7b3b3b4-0b3b-4b3b-ffff-000000000002'::uuid, 'f7b3b3b4-0b3b-4b3b-ffff-000000000003'::uuid);
+
 -- MUST BE LAST
 END $$;
 

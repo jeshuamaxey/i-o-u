@@ -39,3 +39,15 @@ create table expenses (
   paid_for_by uuid not null references profiles(id),
   split_between jsonb not null default '[]'::jsonb
 );
+
+create table payments (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamp with time zone default now(),
+  created_by uuid not null references profiles(id),
+  group_id uuid not null references groups,
+  amount numeric not null,
+  description text,
+  date date not null,
+  paid_from uuid not null references profiles(id),
+  paid_to uuid not null references profiles(id)
+);

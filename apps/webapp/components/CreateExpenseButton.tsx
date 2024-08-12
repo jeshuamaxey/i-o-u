@@ -44,6 +44,7 @@ import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { ChangeEvent, useState } from "react";
 import { CheckCircle2, Circle } from "lucide-react";
+import { currencySymbols } from "@/utils/currencies";
 
 const formSchema = z.object({
   description: z.string(),
@@ -57,12 +58,6 @@ const formSchema = z.object({
     })
   ),
 }).required()
-
-const currencySymbols = {
-  'USD': '$',
-  'EUR': '€',
-  'GBP': '£',
-}
 
 const CreateExpenseButton = ({ group, user }: { group: SBGroup, user: User }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
