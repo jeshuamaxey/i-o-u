@@ -18,7 +18,7 @@ import { User } from "@supabase/supabase-js";
 import { MouseEventHandler, useState } from "react";
 import { currencySymbols } from "@/utils/currencies";
 import { Database } from "@repo/supabase-types";
-import { getGroupMemberDisplayName } from "@/utils/getGroupMemberDisplayName";
+import { getGroupMemberDisplayNameFromUserId } from "@/utils/getGroupMemberDisplayName";
 
 type PaymentInsert = Database["public"]["Tables"]["payments"]["Insert"]
 
@@ -50,8 +50,8 @@ const RecordPaymentButton = ({ group, userId, payment }: { group: SBGroup, userI
     })
   }
 
-  const to = userId === payment.paid_to ? "you" : getGroupMemberDisplayName(group, payment.paid_to)
-  const from = userId === payment.paid_from ? "you" : getGroupMemberDisplayName(group, payment.paid_from)
+  const to = userId === payment.paid_to ? "you" : getGroupMemberDisplayNameFromUserId(group, payment.paid_to)
+  const from = userId === payment.paid_from ? "you" : getGroupMemberDisplayNameFromUserId(group, payment.paid_from)
 
   return <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
     <DialogTrigger asChild>

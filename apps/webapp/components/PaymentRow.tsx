@@ -1,5 +1,5 @@
 import { SBGroup } from "@/utils/api/_types"
-import { getGroupMemberDisplayName } from "@/utils/getGroupMemberDisplayName"
+import { getGroupMemberDisplayNameFromUserId } from "@/utils/getGroupMemberDisplayName"
 import MonetaryAmount from "./MonetaryAmount"
 import RowDate from "./RowDate"
 import { BadgeDollarSign, BadgeEuro, BadgePoundSterling } from "lucide-react"
@@ -14,8 +14,8 @@ const PaymentRow = ({payment, group}: {
   payment: SBGroup["payments"][0],
   group: SBGroup
 }) => {
-  const paidFrom = getGroupMemberDisplayName(group, payment.paid_from)
-  const paidTo = getGroupMemberDisplayName(group, payment.paid_to)
+  const paidFrom = getGroupMemberDisplayNameFromUserId(group, payment.paid_from)
+  const paidTo = getGroupMemberDisplayNameFromUserId(group, payment.paid_to)
   const PaymentIcon = PaymentIcons[group.currency]
 
   return <div key={payment.id} className="flex justify-between items-center bg-muted p-4 rounded-lg">

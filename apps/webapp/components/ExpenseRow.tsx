@@ -1,5 +1,5 @@
 import { SBGroup } from "@/utils/api/_types";
-import { getGroupMemberDisplayName } from "@/utils/getGroupMemberDisplayName";
+import { getGroupMemberDisplayNameFromUserId } from "@/utils/getGroupMemberDisplayName";
 import MonetaryAmount from "./MonetaryAmount";
 import RowDate from "./RowDate";
 import { Receipt, ReceiptEuro, ReceiptPoundSterling } from "lucide-react";
@@ -17,7 +17,7 @@ const ExpenseRow = ({expense, group, userId}: {
   group: SBGroup
   userId: string
 }) => {
-  const paidForBy = getGroupMemberDisplayName(group, expense.paid_for_by)
+  const paidForBy = getGroupMemberDisplayNameFromUserId(group, expense.paid_for_by)
   const ReceiptIcon = ReceiptIcons[group.currency]
 
   let loan, debt, debtAmount, debtors;
@@ -33,7 +33,7 @@ const ExpenseRow = ({expense, group, userId}: {
       if(split.beneficiary === userId) return acc
       return acc + split.amount
     }, 0)
-    debtors = splitBetween.filter(split => split.beneficiary !== userId).map(split => getGroupMemberDisplayName(group, split.beneficiary))
+    debtors = splitBetween.filter(split => split.beneficiary !== userId).map(split => getGroupMemberDisplayNameFromUserId(group, split.beneficiary))
   }
 
   return <div key={expense.id} className="flex justify-between items-center bg-muted p-4 rounded-lg">

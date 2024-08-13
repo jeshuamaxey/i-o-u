@@ -19,12 +19,13 @@ create table groups (
 );
 
 create table group_members (
+  id uuid primary key not null default gen_random_uuid(),
   created_at timestamp with time zone default now(),
   group_id uuid not null references groups,
   name text,
-  user_id uuid not null references profiles,
+  user_id uuid references profiles,
 
-  primary key (group_id, user_id)
+  unique (group_id, user_id, name)
 );
 
 create table expenses (
