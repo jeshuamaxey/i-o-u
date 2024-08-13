@@ -18,7 +18,7 @@ const PaymentRow = ({payment, group}: {
   const paidTo = getGroupMemberDisplayName(group, payment.paid_to)
   const PaymentIcon = PaymentIcons[group.currency]
 
-  return <div key={payment.id} className="flex justify-between items-center bg-muted p-2 md:p-4 rounded-lg">
+  return <div key={payment.id} className="flex justify-between items-center bg-muted p-4 rounded-lg">
     <div className="flex gap-2 md:gap-4 flex-grow items-center">
       <RowDate date={new Date(payment.date)} />
       {PaymentIcon}
