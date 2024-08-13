@@ -15,8 +15,7 @@ create table groups (
   name text not null,
   owner_id uuid not null references profiles,
   currency currency not null default 'GBP',
-  archived_at timestamp with time zone,
-  simplified_debts_enabled boolean default false
+  archived_at timestamp with time zone
 );
 
 create table group_members (

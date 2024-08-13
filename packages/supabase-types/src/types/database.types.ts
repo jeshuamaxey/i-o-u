@@ -131,7 +131,6 @@ export interface Database {
           id: string
           name: string
           owner_id: string
-          simplified_debts_enabled: boolean | null
         }
         Insert: {
           archived_at?: string | null
@@ -140,7 +139,6 @@ export interface Database {
           id?: string
           name: string
           owner_id: string
-          simplified_debts_enabled?: boolean | null
         }
         Update: {
           archived_at?: string | null
@@ -149,7 +147,6 @@ export interface Database {
           id?: string
           name?: string
           owner_id?: string
-          simplified_debts_enabled?: boolean | null
         }
         Relationships: [
           {
