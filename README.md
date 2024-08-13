@@ -65,9 +65,9 @@ npm dev
 
 - [ ] creating expenses
   - [x] create expense (split amongst n ppl)
-  - [3] split expense by shares
-  - [4] split expense by %
-  - [5] split expense by arbitrary £ amount
+  - [ ] split expense by shares
+  - [ ] split expense by %
+  - [ ] split expense by arbitrary £ amount
   - [ ] create expense button hovers bottom right
 
 - [ ] viewing expenses
@@ -76,9 +76,10 @@ npm dev
   - [ ] group by day/week
   - [ ] sort expenses on same day by date created
 
-- [ ] settle up
+- [x] settle up
   - [x] calculate overall debts
   - [x] record payments
+  - [x] incorporate payments into debt calc
 
 - [ ] archiving a group
   - [ ] set group to archived

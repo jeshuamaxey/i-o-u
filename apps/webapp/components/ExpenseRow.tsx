@@ -37,7 +37,7 @@ const ExpenseRow = ({expense, group, userId}: {
   }
 
   return <div key={expense.id} className="flex justify-between items-center bg-muted p-4 rounded-lg">
-    <div className="flex gap-2 flex-grow items-center">
+    <div className="flex gap-2 md:gap-4 flex-grow items-center">
       <RowDate date={new Date(expense.date)} />
       {ReceiptIcon}
       <div className="flex flex-col">

@@ -1,3 +1,5 @@
+import { Database } from "@repo/supabase-types"
+
 export type SplitBetween = {
   beneficiary: string
   amount: number

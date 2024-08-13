@@ -16,13 +16,13 @@ import { createPayment } from "@/utils/api/createPayment";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { MouseEventHandler, useState } from "react";
-import { Debt } from "@/types";
 import { currencySymbols } from "@/utils/currencies";
 import { Database } from "@repo/supabase-types";
+import { getGroupMemberDisplayName } from "@/utils/getGroupMemberDisplayName";
 
 type PaymentInsert = Database["public"]["Tables"]["payments"]["Insert"]
 
-const RecordPaymentButton = ({ group, userId, debt }: { group: SBGroup, userId: User["id"], debt: Debt }) => {
+const RecordPaymentButton = ({ group, userId, payment }: { group: SBGroup, userId: User["id"], payment: Omit<PaymentInsert, "created_by" | "date"> }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
   const supabase = createClient();
   const todaysDate = new Date().toISOString().split('T')[0]!
@@ -45,16 +45,13 @@ const RecordPaymentButton = ({ group, userId, debt }: { group: SBGroup, userId: 
   const handleClick: MouseEventHandler<HTMLButtonElement> = (ev) => {
     createPaymentMutation.mutate({
       created_by: userId,
-      group_id: group.id,
       date: todaysDate,
-      amount: debt.amount,
-      paid_from: debt.debtor,
-      paid_to: debt.creditor
+      ...payment,
     })
   }
 
-  const creditor = userId === debt.creditor ? "you" : group.group_members.find(m => m.user_id === debt.creditor)?.profiles?.username
-  const debtor = userId === debt.debtor ? "you" : group.group_members.find(m => m.user_id === debt.debtor)?.profiles?.username
+  const to = userId === payment.paid_to ? "you" : getGroupMemberDisplayName(group, payment.paid_to)
+  const from = userId === payment.paid_from ? "you" : getGroupMemberDisplayName(group, payment.paid_from)
 
   return <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
     <DialogTrigger asChild>
@@ -74,7 +71,7 @@ const RecordPaymentButton = ({ group, userId, debt }: { group: SBGroup, userId: 
           {createPaymentMutation.isPending ?
             <>Loading...</> :
             <>
-              Confirm {debtor} paid {creditor} {currencySymbols[group.currency]}{debt.amount}
+              Confirm {from} paid {to} {currencySymbols[group.currency]}{payment.amount}
             </>
           }
         </Button>

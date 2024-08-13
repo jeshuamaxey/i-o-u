@@ -15,7 +15,13 @@ const Expenses = ({group, user}: {group: SBGroup, user: User}) => {
   const activity = [
     ...group.expenses.map(e => addField(e, 'type', 'expense')),
     ...group.payments.map(p => addField(p, 'type', 'payment'))
-  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  ]
+  .sort((a, b) => {
+    const dateOrder = new Date(b.date).getTime() - new Date(a.date).getTime()
+    const createdAtOrder = new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    if(dateOrder != 0) return dateOrder
+    else return createdAtOrder
+  })
 
   return <div className="flex flex-col gap-2">
     {activity.length === 0 && (
