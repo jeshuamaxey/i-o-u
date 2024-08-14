@@ -58,7 +58,10 @@ npm dev
 - [ ] groups
   - [x] create group
   - [ ] add members to group
-    - [2] add member without profile
+    - [2] add member without them signing up
+      - [x] refactor everything to user group_member.id, not profile.id
+      - [ ] search for profiles/user by email when addig group members
+      - [ ] if no existing user, create invite (linked to gm + group)
     - [ ] add member with profile
     - [ ] add member and send invite
     - [ ] accept invite

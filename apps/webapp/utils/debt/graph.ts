@@ -76,7 +76,7 @@ export const createDebtGraph = (debts: Debt[]) => {
 }
 
 type UserBalance = {
-  userId: string
+  groupMemberId: string
   amount: number
 }
 
@@ -104,7 +104,7 @@ const createDebtAndCreditLists = (graph: Graph): { debtList: UserBalance[], cred
       return acc - edge.amount
     }, 0)
 
-    return { userId: nodeLabel, amount }
+    return { groupMemberId: nodeLabel, amount }
   })
 
   const debtList = users.filter(u => u.amount > 0).map(u => {
@@ -145,8 +145,8 @@ export const createListOfSettleUpPayments = (graph: Graph, group: SBGroup): Sett
 
     if(debt.amount <= credit.amount) {
       settleUpPayments.push({
-        paid_from: debt.userId,
-        paid_to: credit.userId,
+        paid_from: debt.groupMemberId,
+        paid_to: credit.groupMemberId,
         amount: debt.amount,
         group_id: group.id
       })
@@ -161,8 +161,8 @@ export const createListOfSettleUpPayments = (graph: Graph, group: SBGroup): Sett
 
     if(debt.amount > credit.amount) {
       settleUpPayments.push({
-        paid_from: debt.userId,
-        paid_to: credit.userId,
+        paid_from: debt.groupMemberId,
+        paid_to: credit.groupMemberId,
         amount: credit.amount,
         group_id: group.id
       })

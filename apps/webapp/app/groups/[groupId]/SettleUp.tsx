@@ -1,10 +1,10 @@
 import MonetaryAmount from "@/components/MonetaryAmount";
-import RecordPaymentButton from "@/components/RecordPaymentButton";
+import CreatePaymentButton from "@/components/CreatePaymentButton";
 import { Debt } from "@/types";
 import { SBGroup } from "@/utils/api/_types";
 import { createDebtWithKey, expenseToDebts } from "@/utils/debt";
 import { createDebtGraph, createListOfSettleUpPayments } from "@/utils/debt/graph";
-import { getGroupMemberDisplayNameFromUserId } from "@/utils/getGroupMemberDisplayName";
+import { getGroupMemberDisplayNameFromMembershipId, getGroupMemberDisplayNameFromUserId } from "@/utils/getGroupMemberDisplayName";
 import { User } from "@supabase/supabase-js";
 
 const SettleUp = ({group, userId}: {group: SBGroup, userId: User["id"]}) => {
@@ -34,8 +34,8 @@ const SettleUp = ({group, userId}: {group: SBGroup, userId: User["id"]}) => {
 
     {settleUpPayments.map(payment => {
       const key = payment.paid_from + payment.paid_to
-      const creditor = userId === payment.paid_to ? "you" : getGroupMemberDisplayNameFromUserId(group, payment.paid_to)
-      const debtor = userId === payment.paid_from ? "you" : getGroupMemberDisplayNameFromUserId(group, payment.paid_from)
+      const creditor = userId === payment.paid_to ? "you" : getGroupMemberDisplayNameFromMembershipId(group, payment.paid_to)
+      const debtor = userId === payment.paid_from ? "you" : getGroupMemberDisplayNameFromMembershipId(group, payment.paid_from)
       const owes = debtor === "you" ? "owe" : "owes";
 
       return <div key={key} className="flex justify-between items-center bg-muted p-4 rounded-lg">
@@ -44,7 +44,7 @@ const SettleUp = ({group, userId}: {group: SBGroup, userId: User["id"]}) => {
           <span> {owes} </span>
           <span className="font-bold">{creditor}</span> <MonetaryAmount amount={payment.amount} currency={group.currency} />
         </p>
-        <RecordPaymentButton group={group} userId={userId} payment={payment} />
+        <CreatePaymentButton group={group} userId={userId} payment={payment} />
       </div>
     })}
   </div>;

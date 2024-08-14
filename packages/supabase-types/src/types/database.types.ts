@@ -84,7 +84,7 @@ export interface Database {
           {
             foreignKeyName: "expenses_paid_for_by_fkey"
             columns: ["paid_for_by"]
-            referencedRelation: "profiles"
+            referencedRelation: "group_members"
             referencedColumns: ["id"]
           }
         ]
@@ -210,13 +210,13 @@ export interface Database {
           {
             foreignKeyName: "payments_paid_from_fkey"
             columns: ["paid_from"]
-            referencedRelation: "profiles"
+            referencedRelation: "group_members"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "payments_paid_to_fkey"
             columns: ["paid_to"]
-            referencedRelation: "profiles"
+            referencedRelation: "group_members"
             referencedColumns: ["id"]
           }
         ]

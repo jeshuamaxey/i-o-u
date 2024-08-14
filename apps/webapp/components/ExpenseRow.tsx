@@ -1,10 +1,9 @@
 import { SBGroup } from "@/utils/api/_types";
-import { getGroupMemberDisplayNameFromUserId } from "@/utils/getGroupMemberDisplayName";
+import { getGroupMemberDisplayNameFromMembershipId } from "@/utils/getGroupMemberDisplayName";
 import MonetaryAmount from "./MonetaryAmount";
 import RowDate from "./RowDate";
 import { Receipt, ReceiptEuro, ReceiptPoundSterling } from "lucide-react";
 import { SplitBetween } from "@/types";
-import exp from "constants";
 
 const ReceiptIcons = {
   'USD': <Receipt size={24} className="bg-foreground/10 p-2 h-12 w-12 rounded-sm text-foreground" />,
@@ -17,23 +16,24 @@ const ExpenseRow = ({expense, group, userId}: {
   group: SBGroup
   userId: string
 }) => {
-  const paidForBy = getGroupMemberDisplayNameFromUserId(group, expense.paid_for_by)
+  const paidForBy = getGroupMemberDisplayNameFromMembershipId(group, expense.paid_for_by)
   const ReceiptIcon = ReceiptIcons[group.currency]
+  const userGroupMember = group.group_members.find(member => member.user_id === userId) || {id: null}
 
   let loan, debt, debtAmount, debtors;
 
   const splitBetween = expense.split_between as SplitBetween[]
 
   if(splitBetween && splitBetween.length > 0) {
-    loan = expense.paid_for_by !== userId
-      && splitBetween.find(split => split.beneficiary === userId && split.amount > 0)
+    loan = expense.paid_for_by !== userGroupMember.id
+      && splitBetween.find(split => split.beneficiary === userGroupMember.id && split.amount > 0)
 
-    debt = expense.paid_for_by === userId
+    debt = expense.paid_for_by === userGroupMember.id
     debtAmount = splitBetween.reduce((acc, split) => {
-      if(split.beneficiary === userId) return acc
+      if(split.beneficiary === userGroupMember.id) return acc
       return acc + split.amount
     }, 0)
-    debtors = splitBetween.filter(split => split.beneficiary !== userId).map(split => getGroupMemberDisplayNameFromUserId(group, split.beneficiary))
+    debtors = splitBetween.filter(split => split.beneficiary !== userGroupMember.id).map(split => getGroupMemberDisplayNameFromMembershipId(group, split.beneficiary))
   }
 
   return <div key={expense.id} className="flex justify-between items-center bg-muted p-4 rounded-lg">

@@ -18,11 +18,11 @@ import { User } from "@supabase/supabase-js";
 import { MouseEventHandler, useState } from "react";
 import { currencySymbols } from "@/utils/currencies";
 import { Database } from "@repo/supabase-types";
-import { getGroupMemberDisplayNameFromUserId } from "@/utils/getGroupMemberDisplayName";
+import { getGroupMemberDisplayNameFromMembershipId } from "@/utils/getGroupMemberDisplayName";
 
 type PaymentInsert = Database["public"]["Tables"]["payments"]["Insert"]
 
-const RecordPaymentButton = ({ group, userId, payment }: { group: SBGroup, userId: User["id"], payment: Omit<PaymentInsert, "created_by" | "date"> }) => {
+const CreatePaymentButton = ({ group, userId, payment }: { group: SBGroup, userId: User["id"], payment: Omit<PaymentInsert, "created_by" | "date"> }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
   const supabase = createClient();
   const todaysDate = new Date().toISOString().split('T')[0]!
@@ -50,8 +50,8 @@ const RecordPaymentButton = ({ group, userId, payment }: { group: SBGroup, userI
     })
   }
 
-  const to = userId === payment.paid_to ? "you" : getGroupMemberDisplayNameFromUserId(group, payment.paid_to)
-  const from = userId === payment.paid_from ? "you" : getGroupMemberDisplayNameFromUserId(group, payment.paid_from)
+  const to = userId === payment.paid_to ? "you" : getGroupMemberDisplayNameFromMembershipId(group, payment.paid_to)
+  const from = userId === payment.paid_from ? "you" : getGroupMemberDisplayNameFromMembershipId(group, payment.paid_from)
 
   return <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
     <DialogTrigger asChild>
@@ -80,4 +80,4 @@ const RecordPaymentButton = ({ group, userId, payment }: { group: SBGroup, userI
   </Dialog>
 }
 
-export default RecordPaymentButton;
+export default CreatePaymentButton;

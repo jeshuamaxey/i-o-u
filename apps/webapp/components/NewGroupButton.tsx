@@ -17,6 +17,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useMutation } from "@tanstack/react-query";
 import { createGroup } from "@/utils/api/createGroup";
 import { useRouter } from "next/navigation";
+import { createGroupMember } from "@/utils/api/createGroupMember";
 
 const CURRENCIES = [
   { symbol: "£", value: "GBP" },
@@ -38,8 +39,23 @@ const NewGroupButton = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: (nGroup: NewGroup) => {
-      return createGroup(supabase, nGroup)
+    mutationFn: async (nGroup: NewGroup) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if(!user) {
+        throw new Error("No user found")
+      }
+
+      const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single()
+
+      const group =  await createGroup(supabase, nGroup)
+      await createGroupMember(supabase, {
+        group_id: group.id,
+        user_id: user.id,
+        name: profile?.username || "admin"
+      })
+
+      return group
+
     },
     onSuccess(data, variables, context) {
       router.push(`/groups/${data.id}`)

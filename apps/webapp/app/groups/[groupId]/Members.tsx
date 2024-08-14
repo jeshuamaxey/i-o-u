@@ -12,9 +12,9 @@ const Members = ({group}: {group: SBGroup}) => {
     {group.group_members.map(gm => {
       return <div key={gm.user_id} className="flex justify-between items-center bg-muted p-4 rounded-lg">
         <div className="flex gap-2">
-          <p>{gm.profiles?.username || `User ${gm.user_id}`}</p>
+          <p>{gm.profiles?.username || gm.name}</p>
           {group.owner_id === gm.user_id && <p>(Admin)</p>}
-          <p className="font-mono">{gm.user_id.slice(-4)}</p>
+          <p className="font-mono">{gm.id.slice(-4)}</p>
         </div>
       </div>
     })}

@@ -45,6 +45,7 @@ import { User } from "@supabase/supabase-js";
 import { ChangeEvent, useState } from "react";
 import { CheckCircle2, Circle } from "lucide-react";
 import { currencySymbols } from "@/utils/currencies";
+import { getGroupMemberDisplayNameFromMembershipId } from "@/utils/getGroupMemberDisplayName";
 
 const formSchema = z.object({
   description: z.string(),
@@ -64,11 +65,11 @@ const CreateExpenseButton = ({ group, user }: { group: SBGroup, user: User }) =>
   const supabase = createClient();
   const todaysDate = new Date().toISOString().split('T')[0]
   const queryClient = useQueryClient()
+  const userGroupMember = group.group_members.find(gm => gm.user_id === user.id)!
 
   const createExpenseMutation = useMutation({
     mutationKey: ["group", group.id, "expenses"],
     mutationFn: async (expense: z.infer<typeof formSchema>) => {
-      console.warn("FAKING split_between")
       
       const newExpense = {
         created_by: user.id,
@@ -87,7 +88,7 @@ const CreateExpenseButton = ({ group, user }: { group: SBGroup, user: User }) =>
 
   const defaultSplitBetween = group.group_members.map(gm => {
     return {
-      beneficiary: gm.user_id,
+      beneficiary: gm.id,
       amount: 0
     }
   })
@@ -98,7 +99,7 @@ const CreateExpenseButton = ({ group, user }: { group: SBGroup, user: User }) =>
       description: '',
       date: todaysDate,
       amount: 0,
-      paid_for_by: user.id,
+      paid_for_by: userGroupMember.id,
       split_between: defaultSplitBetween
     },
   })
@@ -139,8 +140,8 @@ const CreateExpenseButton = ({ group, user }: { group: SBGroup, user: User }) =>
                     </FormControl>
                     <SelectContent>
                       {group.group_members.map(gm => {
-                        const name = gm.user_id === user.id ? "You" : gm.profiles?.username
-                        return <SelectItem key={gm.user_id} value={gm.user_id}>{name}</SelectItem>
+                        const name = gm.id === userGroupMember.id ? "You" : getGroupMemberDisplayNameFromMembershipId(group, gm.id)
+                        return <SelectItem key={gm.id} value={gm.id}>{name}</SelectItem>
                       })}
                     </SelectContent>
                   </Select>
@@ -245,14 +246,14 @@ const CreateExpenseButton = ({ group, user }: { group: SBGroup, user: User }) =>
                           <TabsContent value="equally">
                             <ToggleGroup defaultValue={defaultValue} className="justify-start" type="multiple" onValueChange={handleValueChange}>
                               {group.group_members.map(gm => {
-                                const selected = field.value.find(s => s.beneficiary === gm.user_id)
-                                return <ToggleGroupItem key={gm.user_id} value={gm.user_id}>
+                                const selected = field.value.find(s => s.beneficiary === gm.id)
+                                return <ToggleGroupItem key={gm.id} value={gm.id}>
                                   {selected ? (
                                     <CheckCircle2 className="text-green-700 mr-1" />
                                   ) : (
                                     <Circle className="text-gray-500 mr-1" />
                                   )}
-                                  {gm.profiles?.username || gm.name}
+                                  {getGroupMemberDisplayNameFromMembershipId(group, gm.id)}
                                 </ToggleGroupItem>
                                 }
                               )}
